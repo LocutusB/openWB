@@ -1,10 +1,5 @@
 #!/bin/bash
 
-#Variablen über die Weboberfläche abfragen und an das Modul übergeben.
-bezug_smartme_user="user"
-bezug_smartme_pass="pass"
-bezug_smartme_url="https://smart-me.com:443/api/Devices/[ID]"
-
 . /var/www/html/openWB/openwb.conf
 
 #Daten einlesen
@@ -17,11 +12,13 @@ wattbezug=$(echo "$wattbezug / 1" | bc)
 
 #Zählerstand Import(kWh)
 ikwh=$(echo $json | jq .CounterReadingImport)
-ikwh=$(echo "$ikwh / 1" | bc)
+ikwh=$(echo "scale=3 ; $ikwh * 1000" | bc)
+#ikwh=$(echo "$ikwh / 1" | bc)
 
-#Zählerstand Import(kWh)
+#Zählerstand Export(kWh) von PV Zähler minus Bezug
 ekwh=$(echo $json | jq .CounterReadingExport)
-ekwh=$(echo "$ekwh / 1" | bc)
+ekwh=$(echo "scale=3 ; $ekwh * 1000" | bc)
+#ekwh=$(echo "$ekwh / 1" | bc)
 
 #Weitere Zählerdaten für die Statusseite (PowerFaktor, Spannung und Strom)
 evupf1=$(echo $json | jq .PowerFactor)
@@ -29,7 +26,7 @@ evuv1=$(echo $json | jq .Voltage)
 bezuga1=$(echo $json | jq .Current)
 
 #Prüfen ob Werte gültig
-re='^-?[0-9]+$'
+re='^[-+]?[0-9]+\.?[0-9]*$'
 if ! [[ $wattbezug =~ $re ]] ; then
 	   wattbezug=$(</var/www/html/openWB/ramdisk/wattbezug)
 fi
