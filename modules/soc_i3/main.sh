@@ -42,6 +42,5 @@ else
 		fi
 	else 
 		echo 0 > /var/www/html/openWB/ramdisk/chargingerror
-	fi
 	fi	
 fi
