@@ -355,6 +355,9 @@ foreach($lines as $line) {
 	if(strpos($line, "graphliveam=") !== false) {
 		list(, $graphliveamold) = explode("=", $line);
 	}
+	if(strpos($line, "graphsocdyn=") !== false) {
+		list(, $graphsocdynold) = explode("=", $line);
+	}
 	if(strpos($line, "chartlegendmain=") !== false) {
 		list(, $chartlegendmainold) = explode("=", $line);
 	}
@@ -381,7 +384,6 @@ $pushovertokenold = str_replace( "'", "", $pushovertokenold);
 			<li><a data-toggle="tab" href="./index.php">Zurück</a></li>
 			<li><a href="./settings.php">Einstellungen</a></li>
   			<li><a href="./pvconfig.php">PV Ladeeinstellungen</a></li>
-			<li><a href="./smarthome.php">Smart Home</a></li>
 			<li><a href="./modulconfig.php">Modulkonfiguration</a></li>
 			<li><a href="./setTheme.php">Theme</a></li>
 			<li class="active"><a href="./misc.php">Misc</a></li>
@@ -599,6 +601,13 @@ $(function() {
 			<select type="text" name="graphinteractiveam" id="graphinteractiveam">
 				<option <?php if($graphinteractiveamold == 0) echo selected ?> value="0">Aus</option>
 				<option <?php if($graphinteractiveamold == 1) echo selected ?> value="1">Ein</option>
+			</select>
+	</div>
+	<div class="row">
+			<b><label for="graphsocdyn">SoC im Graph mit dynamischer Skalierung:</label></b>
+			<select type="text" name="graphsocdyn" id="graphsocdyn">
+				<option <?php if($graphsocdynold == 0) echo selected ?> value="0">Aus</option>
+				<option <?php if($graphsocdynold == 1) echo selected ?> value="1">Ein</option>
 			</select>
 			<br><br>
 	</div>
